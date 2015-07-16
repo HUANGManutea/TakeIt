@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Canvas</title>
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	 <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+	
+	<div id="container" class="container">
+		<div id="sidebar" class="col-sm-3 col-md-2 sidebar">
+					
+		</div>
+		<p id="buttonbar">
+			<div class="btn-toolbar">
+				<div class="btn-group" role="group">
+					<button id="butnew" class="btn btn-info" type="button" data-toggle="tooltip" title="New Drawing">
+						<span  class="glyphicon glyphicon-new-window" > New</span>
+					</button>
+					<div id="newDial">
+						<p>Are you sure ? <br>The current drawing will be cleaned.</p>
+					</div>
+					<button class="btn btn-info" type="button" data-toggle="tooltip" title="Load a work">
+						<span class="glyphicon glyphicon-open"> Open</span>
+					</button>
+					<button class="btn btn-info" type="button" data-toggle="tooltip" title="Save your work">
+						<span class="glyphicon glyphicon-download-alt"> Save</span>
+					</button>
+				</div>
+
+				<div class="btn-group" role="group">
+					
+						<button id="butDraw" type="button" class="btn btn-primary" data-toggle="tooltip" title="Draw">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</button>
+
+					<button class="btn btn-primary" type="button" data-toggle="tooltip" title="Write">
+						<span class="glyphicon glyphicon-font"></span>
+					</button>
+					<button class="btn btn-primary" type="button" data-toggle="tooltip" title="Eraser">
+						<span class="glyphicon glyphicon-erase"></span>
+					</button>
+					<button class="btn btn-primary" type="button" data-toggle="tooltip" title="Image">
+						<span class="glyphicon glyphicon-picture"></span>
+					</button>
+				</div>
+
+				<div class="btn-group" role="group">
+					<button class="btn btn-warning" type="button" data-toggle="tooltip" title="Undo">
+						<span class="glyphicon glyphicon-chevron-left"></span>
+					</button>
+					<button class="btn btn-warning" type="button" data-toggle="tooltip" title="Redo">
+						<span class="glyphicon glyphicon-chevron-right" ></span>
+					</button>
+				</div>
+				<div class="btn-group" role="group" >
+					<button class="btn btn-success" type="button" data-toggle="tooltip" title="Okay !">Done</button>
+				</div>
+
+			</div>
+
+			
+
+		</p>
+		<div id="canvasDiv"></div>
+	</div>
+	
+	
+	<script src="main.js"></script>
+	<script src="js/shape.js"></script>
+	<script src="js/circularBuffer.js"></script>
+	<script src="js/buttonBehaviour.js"></script>
+</body>
+</html>
