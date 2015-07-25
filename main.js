@@ -13,6 +13,7 @@ var canvasHeight = 500;
 canvas.setAttribute('width', canvasWidth);
 canvas.setAttribute('height', canvasHeight);
 canvas.setAttribute('id', 'canvas');
+canvas.setAttribute('class', 'canvas');
 canvasDiv.appendChild(canvas);
 
 if(typeof G_vmlCanvasManager != 'undefined') {

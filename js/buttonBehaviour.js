@@ -21,7 +21,13 @@ $(function(){
 	});
 
 	$('#butDraw').click(function() {
-	    $('#sidebar').add('selector/elements/html')
+	    $('.canvas').css("pointer-events","auto");
 	});
 
+    $('#butWrite').click(function(){
+        $('.canvas').css("pointer-events","none");
+    });
+
+    $('#butSave').click(function(){
+    });
 });
