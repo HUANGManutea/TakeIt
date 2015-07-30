@@ -1,28 +1,25 @@
-var circleShape = {
-	RIGHT_DOWN:"RIGHT_DOWN", 
-	LEFT_DOWN:"LEFT_DOWN", 
-	LEFT_UP:"LEFT_UP",
-	RIGHT_UP:"RIGHT_UP"
-};
+var circleShape = new Circularlist("RIGHT_DOWN","LEFT_DOWN","LEFT_UP","RIGHT_UP");
 var boundsX;
 var boundsY;
+
+//return String
 function getType(dx,dy) {
 	var result;
     if (dx > 0 && dy < 0) {
-        result = circleShape.RIGHT_DOWN;
+        result ="RIGHT_DOWN";
     } else if (dx < 0 && dy < 0) {
-        result = circleShape.LEFT_DOWN;
+        result = "LEFT_DOWN";
     } else if (dx < 0 && dy > 0) {
-        result = circleShape.LEFT_UP;
+        result = "LEFT_UP";
     } else if (dx > 0 && dy > 0) {
-        result = circleShape.RIGHT_UP;
+        result = "RIGHT_UP";
     }
     return result;
 }
 
 function isCircle(points) {
     var result = false;
-    var shape = new Array(circleShape.RIGHT_DOWN,circleShape.LEFT_DOWN,circleShape.LEFT_UP,circleShape.RIGHT_UP);
+    var shape = new Circularlist("RIGHT_DOWN","LEFT_DOWN","LEFT_UP","RIGHT_UP");
     var detected = new Array();
     boundsX = new Array();
     boundsY = new Array();
@@ -43,7 +40,8 @@ function isCircle(points) {
 
         var newType = getType(dx, dy);
         if(type == null || type != newType) {
-            if(newType != shape[index]) {
+            if(newType != shape.get(index)) {
+                alert("index = "+index+" newType = "+newType+" ; shapeindex = "+shape.get(index));
                 break;
             }
             boundsX[index] = currentX;
@@ -54,7 +52,7 @@ function isCircle(points) {
         currentX = clickX[i];
         currentY = clickY[i];
 
-        if (index >= shape.length) {
+        if (index >= shape.length()) {
             result = true;
             break;
         }
