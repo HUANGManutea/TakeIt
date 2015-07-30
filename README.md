@@ -17,5 +17,4 @@ Using:
 
 >- bootstrap
 >- jquery
->- http://stackoverflow.com/questions/18934805/draw-a-perfect-circle-from-users-touch/18995771#18995771
 
