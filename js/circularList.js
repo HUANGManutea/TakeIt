@@ -74,7 +74,11 @@ Circularlist.prototype.pred = function(element){
 	}
 }
 
+Circularlist.prototype.isNear = function (insideList,outsideList){
+	return (outsideList==this.pred(insideList)||outsideList==this.next(insideList));
+}
 
+/*
 function test(){
 	var circtest = new Circularlist("a","b","c","d","e");
 	console.log("first "+ circtest.first());
@@ -91,7 +95,9 @@ function test(){
 	console.log("pred to c => "+circtest.pred("c"));
 	console.log("next to e => "+circtest.next("e"));
 	console.log("pred to a => "+circtest.pred("a"));
-
+	console.log("e isNear a > "+(circtest.isNear("a","e")));
+	console.log("null isNear a > "+(circtest.isNear("a",null)));
+	console.log("d isNear a > "+(circtest.isNear("a","d")));
 }
 
-test();
+test();*/

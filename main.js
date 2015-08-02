@@ -24,10 +24,12 @@ context = canvas.getContext("2d");
 var cX=0 ;
 var cY=0 ;
 var cD=0 ;
+var indexMaxY = 0;
+var indexMaxX = 0;
 
-var clickX = new Array();
-var clickY = new Array();
-var clickDrag = new Array();
+clickX = [];
+clickY = [];
+clickDrag = [];
 var paint;
 
 /*------------------------------------------------------------------\
@@ -52,7 +54,7 @@ function redraw(){
 	context.lineWidth = 5;
 
 	i = clickX.length;
-	if(i==0){
+	if(i===0){
 		context.beginPath();
 	}else{
 		if(clickDrag[i-1] && i-1){
@@ -77,6 +79,25 @@ function paintCircle(){
 	context.stroke();
 }
 
+function decomposeArray(arrayX , arrayY){
+	var maxX= arrayX[0];
+	var maxY = arrayY[0];
+	indexMaxY = 0;
+	indexMaxX = 0;
+	for(var i=1;i<arrayX.length;i++){
+		if(arrayX[i]>maxX){
+			maxX = arrayX[i];
+			indexMaxX = i;
+		}
+	}
+	for(var j=1;j<arrayY.length;j++){
+		if(arrayY[j]>maxY){
+			maxY = arrayY[j];
+			indexMaxY = j;
+		}
+	}
+
+}
 
 //listeners
 $('#canvas').mousedown(function(e){
@@ -95,16 +116,19 @@ $('#canvas').mousemove(function(e){
 
 $('#canvas').mouseup(function(e){
 	paint=false;
-	if(isCircle(clickX)){
-		cX = boundsX[0] + Math.abs((boundsX[2] - boundsX[0])/2);
-        cY = boundsY[0];
-        cD = boundsY[2] - boundsY[0];
+	if(isCirc(clickX)){
+		cX = boundsX.get(indexMaxY);
+        cY = boundsY.get(indexMaxX);
+        cD = boundsX.get(indexMaxY) - boundsX.get(indexMaxY-2);
+		//cX = boundsX[0] + Math.abs((boundsX[2] - boundsX[0])/2);
+        //cY = boundsY[0];
+        //cD = boundsY[2] - boundsY[0];
         cY = cY + cD/2;
         clean();
         paintCircle();
 	}
 	
-	clickX = new Array();
-	clickY = new Array();
-	clickDrag = new Array();
+	clickX = [];
+	clickY = [];
+	clickDrag = [];
 });
