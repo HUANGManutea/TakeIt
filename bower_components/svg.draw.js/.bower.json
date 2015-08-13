@@ -1,0 +1,38 @@
+{
+  "name": "svg.draw.js",
+  "version": "2.0.0",
+  "homepage": "https://github.com/Fuzzyma/svg.draw.js",
+  "authors": [
+    "Ulrich-Matthias Schäfer"
+  ],
+  "description": "An extension for svn.js which allows to draw elements with mouse",
+  "main": [
+    "./dist/svg.draw.js"
+  ],
+  "keywords": [
+    "svg.js",
+    "draw",
+    "mouse"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "svg.js": "2.x.x"
+  },
+  "_release": "2.0.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.0.0",
+    "commit": "b6a1fb14309e55b7739bef3b60d88bf6278a195e"
+  },
+  "_source": "git://github.com/Fuzzyma/svg.draw.js.git",
+  "_target": "~2.0.0",
+  "_originalSource": "svg.draw.js",
+  "_direct": true
+}
