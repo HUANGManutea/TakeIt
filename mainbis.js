@@ -2,24 +2,16 @@
 /*------------------------------------------------------------------\
 |																	|
 |																	|
-|						INITIALIZE THE CANVAS						|
+|						INITIALIZE THE svg						|
 |																	|
 |																	|
 --------------------------------------------------------------------*/
-var canvasDiv = document.getElementById('canvasDiv');
-canvas = document.createElement('canvas');
-var canvasWidth = 700;
-var canvasHeight = 500;
-canvas.setAttribute('width', canvasWidth);
-canvas.setAttribute('height', canvasHeight);
-canvas.setAttribute('id', 'canvas');
-canvas.setAttribute('class', 'canvas');
-canvasDiv.appendChild(canvas);
+var svgDiv = document.getElementById('svgDiv');
+var svg = SVG('svgDiv').size(svgWidth,svgHeight);
+svg.setAttribute('id', 'svg');
+svg.setAttribute('class', 'svg');
 
-if(typeof G_vmlCanvasManager != 'undefined') {
-	canvas = G_vmlCanvasManager.initElement(canvas);
-}
-context = canvas.getContext("2d");
+var nested = draw.nested();
 
 var cX=0 ; //c = point from where we draw the circle
 var cY=0 ;
@@ -28,7 +20,7 @@ var diamY = 0;
 var cD=0 ;//diameter of the circle
 var indexMaxY = 0;
 var indexMaxX = 0;
-var listShapes = [];
+
 clickX = [];
 clickY = [];
 clickDrag = [];
@@ -71,16 +63,14 @@ function redraw(){
 }
 
 function clean(){
-	context.clearRect(0,0,canvasWidth,canvasHeight);
+	context.clearRect(0,0,svgWidth,svgHeight);
 }
 
-function paintCircles(array){
-	for (var i = 0; i < listShapes.length; i++) {
-		context.beginPath();
-		context.arc(array[i].x,array[i].y,(array[i].d)/2,0*Math.PI,2*Math.PI);
-		context.closePath();
-		context.stroke();
-	}
+function paintCircle(){
+	context.beginPath();
+	context.arc(cX,cY,cD/2,0*Math.PI,2*Math.PI);
+	context.closePath();
+	context.stroke();
 }
 
 function decomposeArray(arrayX , arrayY){
@@ -104,13 +94,13 @@ function decomposeArray(arrayX , arrayY){
 }
 
 //listeners
-$('#canvas').mousedown(function(e){
+$('#svg').mousedown(function(e){
 	paint = true;
 	addClick(e.pageX-this.offsetLeft, e.pageY-this.offsetTop);
 	redraw();
 });
 
-$('#canvas').mousemove(function(e){
+$('#svg').mousemove(function(e){
 	//document.getElementById("text").innerHTML=""+(e.pageX - this.offsetLeft)+" "+(e.pageY - this.offsetTop);
 	if(paint){
 		addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
@@ -118,7 +108,7 @@ $('#canvas').mousemove(function(e){
 	}
 });
 
-$('#canvas').mouseup(function(e){
+$('#svg').mouseup(function(e){
 	paint=false;
 	if(isCirc(clickX)){
 		decomposeArray(boundsX,boundsY);
@@ -128,9 +118,7 @@ $('#canvas').mouseup(function(e){
         diamY = Math.abs(boundsY.get(indexMaxY) - boundsY.get(indexMaxY-2));
         cD = Math.max(diamY,diamX);
         cY = cY - cD/2;
-        listShapes.push(new Circle(cX,cY,cD));
-        clean();
-        paintCircles(listShapes);
+        paintCircle();
 	}
 	
 	clickX = [];
