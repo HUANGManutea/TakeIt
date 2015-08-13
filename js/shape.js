@@ -21,8 +21,8 @@ function isCircle(points) {
     var result = false;
     var shape = new Circularlist("RIGHT_DOWN","LEFT_DOWN","LEFT_UP","RIGHT_UP");
     var detected = [];
-    boundsX = [];
-    boundsY = [];
+    boundsX = new Circularlist();
+    boundsY = new Circularlist();
     var step = 5;
 
     var index = 0;

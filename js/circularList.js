@@ -47,7 +47,7 @@ Circularlist.prototype.pop = function(){
 Circularlist.prototype.toString = function(){
 	var res = "";
 	for (var i = 0; i < this.list.length; i++) {
-		res += this.list[i];
+		res += " "+this.list[i];
 	}
 	return res;
 }

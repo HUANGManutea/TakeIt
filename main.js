@@ -21,9 +21,11 @@ if(typeof G_vmlCanvasManager != 'undefined') {
 }
 context = canvas.getContext("2d");
 
-var cX=0 ;
+var cX=0 ; //c = point from where we draw the circle
 var cY=0 ;
-var cD=0 ;
+var diamX = 0; //we will take the biggest
+var diamY = 0;
+var cD=0 ;//diameter of the circle
 var indexMaxY = 0;
 var indexMaxX = 0;
 
@@ -80,19 +82,19 @@ function paintCircle(){
 }
 
 function decomposeArray(arrayX , arrayY){
-	var maxX= arrayX[0];
-	var maxY = arrayY[0];
+	var maxX= arrayX.get(0);
+	var maxY = arrayY.get(0);
 	indexMaxY = 0;
 	indexMaxX = 0;
-	for(var i=1;i<arrayX.length;i++){
-		if(arrayX[i]>maxX){
-			maxX = arrayX[i];
+	for(var i=1;i<arrayX.length();i++){
+		if(arrayX.get(i)>maxX){
+			maxX = arrayX.get(i);
 			indexMaxX = i;
 		}
 	}
-	for(var j=1;j<arrayY.length;j++){
-		if(arrayY[j]>maxY){
-			maxY = arrayY[j];
+	for(var j=1;j<arrayY.length();j++){
+		if(arrayY.get(j)>maxY){
+			maxY = arrayY.get(j);
 			indexMaxY = j;
 		}
 	}
@@ -117,13 +119,14 @@ $('#canvas').mousemove(function(e){
 $('#canvas').mouseup(function(e){
 	paint=false;
 	if(isCirc(clickX)){
+		decomposeArray(boundsX,boundsY);
 		cX = boundsX.get(indexMaxY);
-        cY = boundsY.get(indexMaxX);
-        cD = boundsX.get(indexMaxY) - boundsX.get(indexMaxY-2);
-		//cX = boundsX[0] + Math.abs((boundsX[2] - boundsX[0])/2);
-        //cY = boundsY[0];
-        //cD = boundsY[2] - boundsY[0];
-        cY = cY + cD/2;
+        cY = boundsY.get(indexMaxY);
+        diamX = Math.abs(boundsX.get(indexMaxX) - boundsX.get(indexMaxX-2));
+        diamY = Math.abs(boundsY.get(indexMaxY) - boundsY.get(indexMaxY-2));
+        cD = Math.max(diamY,diamX);
+        cY = cY - cD/2;
+        //cY = cY + cD/2;
         clean();
         paintCircle();
 	}
