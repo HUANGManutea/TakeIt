@@ -67,7 +67,7 @@ function clean(){
 	context.clearRect(0,0,canvasWidth,canvasHeight);
 }
 
-function paintCircles(array){
+function paintShapes(array){
 	for (var i = 0; i < array.length; i++) {
 		if(array[i] instanceof Circle){
 			paintCircle(array[i].x,array[i].y,array[i].d);
@@ -76,13 +76,14 @@ function paintCircles(array){
 		}
 	}
 }
-
+//paint a circle with the given parameters
 function paintCircle(x,y,d){
 	context.beginPath();
 	context.arc(x,y,d/2,0*Math.PI,2*Math.PI);
 	context.closePath();
 	context.stroke();
 }
+//paint a rectangle with the given parameters
 function paintRect(x,y,w,h){
 	context.beginPath();
 	context.rect(x,y,w,h);
@@ -90,7 +91,8 @@ function paintRect(x,y,w,h){
 	context.stroke();
 }
 
-function decomposeArray(arrayX , arrayY){
+//will return the index values of the points with the x max and y max
+function decomposeCircleArray(arrayX , arrayY){
 	var maxX= arrayX.get(0);
 	var maxY = arrayY.get(0);
 	var indexMax= {X : 0 , Y : 0}; //not a point, index values of the points with the x max and y max
@@ -107,6 +109,21 @@ function decomposeArray(arrayX , arrayY){
 		}
 	}
 	return indexMax;
+}
+
+//will return the NORTH-WEST point
+function decomposeRectArray(arrayX , arrayY){
+	var mindist = 0; //mindistance from origin (0,0)
+	var pointNW = {X : 0,Y : 0}; //point NORTH-WEST
+	for(var i=1;i<arrayX.length();i++){
+		var curdist = Math.sqrt(Math.pow(arrayX.get(i),2)+Math.pow(arrayY.get(i),2));
+		if(curdist<mindist){
+			pointNW.X = i; //x-y coordinate of the NW point
+			pointNW.Y = i;
+			mindist = curdist;
+		}
+	}
+	return pointNW;
 }
 
 //listeners
@@ -127,25 +144,34 @@ $('#canvas').mousemove(function(e){
 $('#canvas').mouseup(function(e){
 	paint=false;
 	if(isRect(clickX)){
-		var indexMax = decomposeArray(boundsX,boundsY); //we need the location of the max X and the max Y points, so we need their index
-
-	}
-	if(isCirc(clickX)){
-		var cX=0 ; //c = point from where we draw the circle
-		var cY=0 ;
+		console.log("this is a rectangle");
+		var pointNW = decomposeRectArray(boundsX,boundsY); //we need the location of the max X and the max Y points, so we need their index
+		var pointSE = {X : boundsX.get((pointNW.X)+2),Y : boundsY.get((pointNW.Y)+2)}; //point SOUTH-EAST
+		var height = boundsY.get(pointSE.Y) - boundsY.get(pointNW.Y);
+		var width = boundsX.get(pointSE.X) - boundsX.get(pointNW.X);
+		listShapes.push(new Rectangle(boundsX.get(pointNW.X),boundsY.get(pointNW.Y),width,height));
+        clean();
+        paintShapes(listShapes);
+	}else if(isCirc(clickX)){
+		var pX=0 ; //p = point from where we draw the circle
+		var pY=0 ;
 		var diamX = 0; //we will take the biggest
 		var diamY = 0;
 		var cD=0 ;//diameter of the circle
-		var indexMax = decomposeArray(boundsX,boundsY); //we need the location of the max X and the max Y points, so we need their index
-		cX = boundsX.get(indexMax.Y);
-        cY = boundsY.get(indexMax.Y);
+		var indexMax = decomposeCircleArray(boundsX,boundsY); //we need the location of the max X and the max Y points, so we need their index
+		//getting the coordinates
+		pX = boundsX.get(indexMax.Y); 
+        pY = boundsY.get(indexMax.Y);
+        //getting the biggest diameter
         diamX = Math.abs(boundsX.get(indexMax.X) - boundsX.get((indexMax.X)-2));
         diamY = Math.abs(boundsY.get(indexMax.Y) - boundsY.get((indexMax.Y)-2));
         cD = Math.max(diamY,diamX);
-        cY = cY - cD/2;
-        listShapes.push(new Circle(cX,cY,cD));
+
+        pY = pY - cD/2;//update the y coordinate
+
+        listShapes.push(new Circle(pX,pY,cD));
         clean();
-        paintCircles(listShapes);
+        paintShapes(listShapes);
 	}
 	
 	clickX = [];

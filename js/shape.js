@@ -6,9 +6,9 @@ var boundsY;
 //return the type of the tangent as String
 function getType(dx,dy) {
 	var result;
-    if ((Math.abs(dy)/Math.abs(dx))>50){
+    if ((Math.abs(dy)/Math.abs(dx))>5){
         result = "VERTICAL";
-    } else if ((Math.abs(dx)/Math.abs(dy))>50){
+    } else if ((Math.abs(dx)/Math.abs(dy))>5){
         result = "HORIZONTAL";
     } else if (dx > 0 && dy < 0) {
         result ="RIGHT_DOWN";
@@ -38,6 +38,7 @@ function isRect(arraypoints){
         var dy = clickY[i]-curY;
         //not a vertical nor horizontal line
         var curtype = getType(dx,dy); //current type
+        console.log(curtype);
         //operate only if we have straight horizontal or vertical lines
         if(curtype =="HORIZONTAL" ||curtype =="VERTICAL"){
             if(stocktype===null){ //init we stock the bounds points
