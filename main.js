@@ -178,6 +178,7 @@ $('#canvas').mouseup(function(e){
         clean();
         paintShapes(listShapes);
 	}else if(isRect(clickX)){
+
 		var points = decomposeRectArray(boundsX,boundsY); //we need the location of the max X and the max Y points, so we need their index
 		var pointNW = {X : points.pNW.X,Y : points.pNW.Y}; //indexes point NORTH-WEST
 		var pointSE = {X : points.pSE.X,Y : points.pSE.Y}; //indexes point SOUTH-EAST
@@ -185,7 +186,12 @@ $('#canvas').mouseup(function(e){
 		console.log(pointSE);
 		var height = boundsY.get(pointSE.Y) - boundsY.get(pointNW.Y);
 		var width = boundsX.get(pointSE.X) - boundsX.get(pointNW.X);
-		listShapes.push(new Rectangle(boundsX.get(pointNW.X),boundsY.get(pointNW.Y),width,height));
+		if(isSquare(width,height)){
+			var cote = Math.max(height,width);
+			listShapes.push(new Rectangle(boundsX.get(pointNW.X),boundsY.get(pointNW.Y),cote,cote));
+		}else{
+			listShapes.push(new Rectangle(boundsX.get(pointNW.X),boundsY.get(pointNW.Y),width,height));
+		}
         clean();
         paintShapes(listShapes);
     }

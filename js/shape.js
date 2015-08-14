@@ -64,7 +64,13 @@ function isRect(arraypoints){
     }
     return result;
 }
-
+function isSquare(x,y){
+    if(((x/y)>0.8)&&((x/y)<1.2)){
+        return true;
+    }else{
+        return false;
+    }
+}
 function isCirc(arraypoints){
     var result = false; //we will return result, it is also used as a loop condition
     var stocktype = null; //type of the previous tangent
