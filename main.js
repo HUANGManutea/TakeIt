@@ -113,7 +113,7 @@ function decomposeCircleArray(arrayX , arrayY){
 
 //will return the important points NORTH-WEST and SOUTH-EAST
 function decomposeRectArray(arrayX , arrayY){
-	var mindist = 10000; //mindistance from origin (0,0)
+	var mindist = 1000000; //mindistance from origin (0,0)
 	var pointNW = {X : 0,Y : 0}; //indexes point NORTH-WEST
 	var maxdist = 0; //maxdistance from origin (0,0)
 	var pointSE = {X : 0,Y : 0}; //indexes point SOUTH-EAST
@@ -156,18 +156,8 @@ $('#canvas').mousemove(function(e){
 $('#canvas').mouseup(function(e){
 	paint=false;
 
-	if(isRect(clickX)){
-		var points = decomposeRectArray(boundsX,boundsY); //we need the location of the max X and the max Y points, so we need their index
-		var pointNW = {X : points.pNW.X,Y : points.pNW.Y}; //indexes point NORTH-WEST
-		var pointSE = {X : points.pSE.X,Y : points.pSE.Y}; //indexes point SOUTH-EAST
-		console.log(pointNW);
-		console.log(pointSE);
-		var height = boundsY.get(pointSE.Y) - boundsY.get(pointNW.Y);
-		var width = boundsX.get(pointSE.X) - boundsX.get(pointNW.X);
-		listShapes.push(new Rectangle(boundsX.get(pointNW.X),boundsY.get(pointNW.Y),width,height));
-        clean();
-        paintShapes(listShapes);
-	}else if(isCirc(clickX)){
+	
+	if(isCirc(clickX)){
 		var pX=0 ; //p = point from where we draw the circle
 		var pY=0 ;
 		var diamX = 0; //we will take the biggest
@@ -187,7 +177,18 @@ $('#canvas').mouseup(function(e){
         listShapes.push(new Circle(pX,pY,cD));
         clean();
         paintShapes(listShapes);
-	}
+	}else if(isRect(clickX)){
+		var points = decomposeRectArray(boundsX,boundsY); //we need the location of the max X and the max Y points, so we need their index
+		var pointNW = {X : points.pNW.X,Y : points.pNW.Y}; //indexes point NORTH-WEST
+		var pointSE = {X : points.pSE.X,Y : points.pSE.Y}; //indexes point SOUTH-EAST
+		console.log(pointNW);
+		console.log(pointSE);
+		var height = boundsY.get(pointSE.Y) - boundsY.get(pointNW.Y);
+		var width = boundsX.get(pointSE.X) - boundsX.get(pointNW.X);
+		listShapes.push(new Rectangle(boundsX.get(pointNW.X),boundsY.get(pointNW.Y),width,height));
+        clean();
+        paintShapes(listShapes);
+    }
 	
 	clickX = [];
 	clickY = [];
