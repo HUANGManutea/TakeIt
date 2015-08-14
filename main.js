@@ -96,13 +96,13 @@ function decomposeCircleArray(arrayX , arrayY){
 	var maxX= arrayX.get(0);
 	var maxY = arrayY.get(0);
 	var indexMax= {X : 0 , Y : 0}; //not a point, index values of the points with the x max and y max
-	for(var i=1;i<arrayX.length();i++){
+	for(var i=0;i<arrayX.length();i++){
 		if(arrayX.get(i)>maxX){
 			maxX = arrayX.get(i);
 			indexMax.X = i;
 		}
 	}
-	for(var j=1;j<arrayY.length();j++){
+	for(var j=0;j<arrayY.length();j++){
 		if(arrayY.get(j)>maxY){
 			maxY = arrayY.get(j);
 			indexMax.Y = j;
@@ -111,19 +111,31 @@ function decomposeCircleArray(arrayX , arrayY){
 	return indexMax;
 }
 
-//will return the NORTH-WEST point
+//will return the important points NORTH-WEST and SOUTH-EAST
 function decomposeRectArray(arrayX , arrayY){
-	var mindist = 0; //mindistance from origin (0,0)
-	var pointNW = {X : 0,Y : 0}; //point NORTH-WEST
-	for(var i=1;i<arrayX.length();i++){
+	var mindist = 10000; //mindistance from origin (0,0)
+	var pointNW = {X : 0,Y : 0}; //indexes point NORTH-WEST
+	var maxdist = 0; //maxdistance from origin (0,0)
+	var pointSE = {X : 0,Y : 0}; //indexes point SOUTH-EAST
+	for(var i=0;i<arrayX.length();i++){
 		var curdist = Math.sqrt(Math.pow(arrayX.get(i),2)+Math.pow(arrayY.get(i),2));
 		if(curdist<mindist){
-			pointNW.X = i; //x-y coordinate of the NW point
+			pointNW.X = i; //indexes of the NW point
 			pointNW.Y = i;
 			mindist = curdist;
 		}
 	}
-	return pointNW;
+	for(var i=0;i<arrayX.length();i++){
+		var curdist = Math.sqrt(Math.pow(arrayX.get(i),2)+Math.pow(arrayY.get(i),2));
+		if(curdist>maxdist){
+			pointSE.X = i; //indexes of the SE point
+			pointSE.Y = i;
+			maxdist = curdist;
+		}
+	}
+	var points = {pSE : pointSE, pNW: pointNW};
+	
+	return points;
 }
 
 //listeners
@@ -143,10 +155,13 @@ $('#canvas').mousemove(function(e){
 
 $('#canvas').mouseup(function(e){
 	paint=false;
+
 	if(isRect(clickX)){
-		console.log("this is a rectangle");
-		var pointNW = decomposeRectArray(boundsX,boundsY); //we need the location of the max X and the max Y points, so we need their index
-		var pointSE = {X : boundsX.get((pointNW.X)+2),Y : boundsY.get((pointNW.Y)+2)}; //point SOUTH-EAST
+		var points = decomposeRectArray(boundsX,boundsY); //we need the location of the max X and the max Y points, so we need their index
+		var pointNW = {X : points.pNW.X,Y : points.pNW.Y}; //indexes point NORTH-WEST
+		var pointSE = {X : points.pSE.X,Y : points.pSE.Y}; //indexes point SOUTH-EAST
+		console.log(pointNW);
+		console.log(pointSE);
 		var height = boundsY.get(pointSE.Y) - boundsY.get(pointNW.Y);
 		var width = boundsX.get(pointSE.X) - boundsX.get(pointNW.X);
 		listShapes.push(new Rectangle(boundsX.get(pointNW.X),boundsY.get(pointNW.Y),width,height));
