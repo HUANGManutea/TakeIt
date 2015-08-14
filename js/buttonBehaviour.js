@@ -21,7 +21,7 @@ $(function(){
 	});
 
 	$('#butDraw').click(function() {
-	    $('.canvas').css("pointer-events","auto");
+        $('.canvas').css("pointer-events","auto");
 	});
 
     $('#butWrite').click(function(){

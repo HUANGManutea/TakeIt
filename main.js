@@ -26,7 +26,7 @@ clickX = [];
 clickY = [];
 clickDrag = [];
 var paint;
-
+var col = {value: "#f00"}; //allow us to copy easily
 /*------------------------------------------------------------------\
 |																	|
 |																	|
@@ -44,7 +44,7 @@ function addClick(x,y,dragging){
 
 function redraw(){
 	
-	context.strokeStyle = "#008080";
+	context.strokeStyle = col;
 	context.lineJoin = "round";
 	context.lineWidth = 5;
 
@@ -70,21 +70,23 @@ function clean(){
 function paintShapes(array){
 	for (var i = 0; i < array.length; i++) {
 		if(array[i] instanceof Circle){
-			paintCircle(array[i].x,array[i].y,array[i].d);
+			paintCircle(array[i].x,array[i].y,array[i].d,array[i].col);
 		}else if(array[i] instanceof Rectangle){
-			paintRect(array[i].x,array[i].y,array[i].w,array[i].h);
+			paintRect(array[i].x,array[i].y,array[i].w,array[i].h,array[i].col);
 		}
 	}
 }
 //paint a circle with the given parameters
-function paintCircle(x,y,d){
+function paintCircle(x,y,d,col){
+	context.strokeStyle = col;
 	context.beginPath();
 	context.arc(x,y,d/2,0*Math.PI,2*Math.PI);
 	context.closePath();
 	context.stroke();
 }
 //paint a rectangle with the given parameters
-function paintRect(x,y,w,h){
+function paintRect(x,y,w,h,col){
+	context.strokeStyle = col;
 	context.beginPath();
 	context.rect(x,y,w,h);
 	context.closePath();
@@ -139,6 +141,7 @@ function decomposeRectArray(arrayX , arrayY){
 }
 
 //listeners
+
 $('#canvas').mousedown(function(e){
 	paint = true;
 	addClick(e.pageX-this.offsetLeft, e.pageY-this.offsetTop);
@@ -155,7 +158,7 @@ $('#canvas').mousemove(function(e){
 
 $('#canvas').mouseup(function(e){
 	paint=false;
-
+	var colo = {value: col.value};
 	
 	if(isCirc(clickX)){
 		var pX=0 ; //p = point from where we draw the circle
@@ -174,7 +177,7 @@ $('#canvas').mouseup(function(e){
 
         pY = pY - cD/2;//update the y coordinate
 
-        listShapes.push(new Circle(pX,pY,cD));
+        listShapes.push(new Circle(pX,pY,cD,colo));
         clean();
         paintShapes(listShapes);
 	}else if(isRect(clickX)){
@@ -188,9 +191,9 @@ $('#canvas').mouseup(function(e){
 		var width = boundsX.get(pointSE.X) - boundsX.get(pointNW.X);
 		if(isSquare(width,height)){
 			var cote = Math.max(height,width);
-			listShapes.push(new Rectangle(boundsX.get(pointNW.X),boundsY.get(pointNW.Y),cote,cote));
+			listShapes.push(new Rectangle(boundsX.get(pointNW.X),boundsY.get(pointNW.Y),cote,cote,colo.value));
 		}else{
-			listShapes.push(new Rectangle(boundsX.get(pointNW.X),boundsY.get(pointNW.Y),width,height));
+			listShapes.push(new Rectangle(boundsX.get(pointNW.X),boundsY.get(pointNW.Y),width,height,colo.value));
 		}
         clean();
         paintShapes(listShapes);

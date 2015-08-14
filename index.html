@@ -11,14 +11,17 @@
 	 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	 <!--bootstrap-->
 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	 <script src='spectrum/spectrum.js'></script>
 	 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 	 <!--mainCSS-->
 	 <link href="css/main.css" rel="stylesheet">
+	 <link rel='stylesheet' href='spectrum/spectrum.css' />
+
 </head>
 <body>
 	<div id="container" class="container">
 		<div id="sidebar" class="col-sm-3 col-md-2 sidebar">
-					
+			<input type='text' id="custom" />
 		</div>
 		<p id="buttonbar">
 			<div class="btn-toolbar">
@@ -75,12 +78,21 @@
 		</p>
 		<div id="canvasDiv"></div>
 	</div>
-	<script src="js/buttonBehaviour.js"></script>
-	<script src="js/circularList.js"></script>
-	<script src="js/shape.js"></script>
-	<script src="js/circle.js"></script>
-	<script src="js/rectangle.js"></script>
-	<script src="main.js"></script>
+	<script>
+		$("#custom").spectrum({
+		    color: "#f00",
+		    move: function(tinycolor) {col.value=tinycolor.toHexString();},
+    		show: function(tinycolor) {col.value=tinycolor.toHexString();},
+    		hide: function(tinycolor) {col.value=tinycolor.toHexString();},
+    		beforeShow: function(tinycolor) {col.value=tinycolor.toHexString();},
+		});
+	</script>
+	<script type="text/javascript" src="js/buttonBehaviour.js"></script>
+	<script type="text/javascript" src="js/circularList.js"></script>
+	<script type="text/javascript" src="js/shape.js"></script>
+	<script type="text/javascript" src="js/circle.js"></script>
+	<script type="text/javascript" src="js/rectangle.js"></script>
+	<script type="text/javascript" src="main.js"></script>
 	
 </body>
 </html>
