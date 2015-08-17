@@ -6,11 +6,11 @@ var boundsY;
 //return the type of the tangent as String
 function getType(dx,dy) {
 	var result;
-    if ((Math.abs(dy)/Math.abs(dx))>5){
+    if ((Math.abs(dy)/Math.abs(dx))>2){
         result = "VERTICAL";
-    } else if ((Math.abs(dx)/Math.abs(dy))>5){
+    } else if ((Math.abs(dx)/Math.abs(dy))>2){
         result = "HORIZONTAL";
-    } else if (dx > 0 && dy < 0) {
+    } /*else if (dx > 0 && dy < 0) {
         result ="RIGHT_DOWN";
     } else if (dx < 0 && dy < 0) {
         result = "LEFT_DOWN";
@@ -18,7 +18,7 @@ function getType(dx,dy) {
         result = "LEFT_UP";
     } else if (dx > 0 && dy > 0) {
         result = "RIGHT_UP";
-    } 
+    } */
     return result;
 }
 

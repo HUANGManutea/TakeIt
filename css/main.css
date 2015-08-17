@@ -5,10 +5,14 @@
 	width:100%;
 	height:auto;
 }
-.canvas{
+.svg{
 	border-style:solid;
 	border-width: 2px;
 	top:200;
+}
+.canvas{
+	top:0;
+	left: 0;
 }
 #buttonbar{
 	margin-bottom: 0;
